@@ -128,13 +128,16 @@ if (!("webkitSpeechRecognition" in window || "SpeechRecognition" in window)) {
       if (appOpenDictionary[transcript]) {
         const appUrl = appOpenDictionary[transcript];
         outputDiv.textContent += `\nOpening App: "${transcript}"`;
-        speakText(`Opening ${transcript}`);
+        speakText(` ${transcript}`);
         openApp(appUrl); // Trigger the app
       } else if (transcript.startsWith("search for")) {
         const query = transcript.replace("search for", "").trim();
         performSearch(query);
       } else if (transcript.startsWith("what is")) {
         const query = transcript.replace("what is", "").trim();
+        performSearch(query);
+      } else if (transcript.startsWith("where is")) {
+        const query = transcript.replace("where is", "").trim();
         performSearch(query);
       } else {
         speakText("I didn't understand. Please say 'Search for' or 'What is' followed by your query.");
