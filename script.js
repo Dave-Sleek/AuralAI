@@ -26,12 +26,29 @@ if (!("webkitSpeechRecognition" in window || "SpeechRecognition" in window)) {
     };
   
     // App-opening commands and corresponding URLs
+    // const appOpenDictionary = {
+    //   "open whatsapp": "whatsapp://",
+    //   "open twitter": "twitter://",
+    //   "open facebook": "fb://",
+    //   "open youtube": "youtube://",
+    //   "open instagram": "instagram://",
+    //   "open google maps": "comgooglemaps://",
+    // };
+
     const appOpenDictionary = {
+      // Music apps
+      "open spotify": "spotify://",
+      "play spotify": "spotify://",
+      "open youtube music": "https://music.youtube.com/",
+      "open apple music": "music://",
+  
+      // Social media apps
       "open whatsapp": "whatsapp://",
-      "open twitter": "twitter://",
-      "open facebook": "fb://",
-      "open youtube": "youtube://",
       "open instagram": "instagram://",
+      "open facebook": "fb://",
+      "open twitter": "twitter://",
+      "open snapchat": "snapchat://",
+      "open tiktok": "snssdk1128://", // TikTok app scheme
       "open google maps": "comgooglemaps://",
     };
   
@@ -139,7 +156,13 @@ if (!("webkitSpeechRecognition" in window || "SpeechRecognition" in window)) {
       } else if (transcript.startsWith("where is")) {
         const query = transcript.replace("where is", "").trim();
         performSearch(query);
-      } else {
+      }else if (transcript.startsWith("play song")) {
+        const songName = transcript.replace("play song", "").trim();
+        outputDiv.textContent = `Searching for: "${songName}" on Spotify...`;
+        speakText(`Searching for ${songName} on Spotify.`);
+        const spotifySearchUrl = `spotify://search/${encodeURIComponent(songName)}`;
+        openApp(spotifySearchUrl); // Redirect to Spotify search
+      }else {
         speakText("I didn't understand. Please say 'Search for' or 'What is' followed by your query.");
       }
     };
